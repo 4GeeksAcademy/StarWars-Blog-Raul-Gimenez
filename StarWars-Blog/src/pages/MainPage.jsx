@@ -11,7 +11,7 @@ function MainPage() {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const peopleResponse = await getData({ entity: 'people' });
+            const peopleResponse = await getData({ entity: 'people', id:"" });
             const peopleNames = peopleResponse.map((person) => person.uid);
             setPeopleList(peopleNames);
           } catch (error) {
@@ -19,7 +19,7 @@ function MainPage() {
           }
       
           try {
-            const planetsResponse = await getData({ entity: 'planets' });
+            const planetsResponse = await getData({ entity: 'planets', id:"" });
             const planetsNames = planetsResponse.map((planet) => planet.uid);
             setPlanetsList(planetsNames);
           } catch (error) {
@@ -27,7 +27,7 @@ function MainPage() {
           }
       
           try {
-            const starshipsResponse = await getData({ entity: 'starships' });
+            const starshipsResponse = await getData({ entity: 'starships', id:"" });
             const starshipsNames = starshipsResponse.map((starship) => starship.uid);
             setStarshipsList(starshipsNames);
           } catch (error) {
