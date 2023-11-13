@@ -1,81 +1,124 @@
-import { useEffect, useState } from 'react'
-import Card from '../components/Cards'
-import GeneralDiv from '../components/GeneralDiv'
-import getData from '../services/getData'
+import React, { useEffect, useState } from 'react';
+import Card from '../components/Cards';
+import GeneralDiv from '../components/GeneralDiv';
+import getData from '../services/getData';
+import getImg from '../services/getImg';
 
 function MainPage() {
-    const [peopleList, setPeopleList] = useState([])
-    const [planetsList, setPlanetsList] = useState([])
-    const [starshipsList, setStarshipsList] = useState([])
+  const [peopleList, setPeopleList] = useState([]);
+  const [starshipsList, setStarshipsList] = useState([]);
+  const [planetsList, setPlanetsList] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const peopleResponse = await getData({ entity: 'people', id:"" });
-            const peopleNames = peopleResponse.map((person) => person.uid);
-            setPeopleList(peopleNames);
-          } catch (error) {
-            console.error('Error fetching people data:', error);
-          }
-      
-          try {
-            const planetsResponse = await getData({ entity: 'planets', id:"" });
-            const planetsNames = planetsResponse.map((planet) => planet.uid);
-            setPlanetsList(planetsNames);
-          } catch (error) {
-            console.error('Error fetching planets data:', error);
-          }
-      
-          try {
-            const starshipsResponse = await getData({ entity: 'starships', id:"" });
-            const starshipsNames = starshipsResponse.map((starship) => starship.uid);
-            setStarshipsList(starshipsNames);
-          } catch (error) {
-            console.error('Error fetching starships data:', error);
-          }
-        };
-      
-        fetchData();
-      }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const peopleResponse = await getData({ entity: 'people', id: '' });
+        const peopleDetails = await Promise.all(
+          peopleResponse.map(async (person) => {
+            const details = await getData({ entity: 'people', id: person.uid });
+            return {
+              uid: person.uid,
+              properties: details.properties,
+            };
+          })
+        );
+        setPeopleList(peopleDetails);
+      } catch (error) {
+        console.error('Error fetching people data:', error);
+      }
 
-    return (
-        <>
-            <div>
-                <GeneralDiv title="Characters" height="auto">
-                    {
-                        peopleList.map((person) => {
-                            return (
-                                <Card
-                                    img="https://i.pinimg.com/originals/f1/26/e7/f126e762bcdb32fd401ff861ddd1390a.jpg"
-                                    detail="/detail"
-                                ></Card>
-                            )
-                        })
-                    }
-                </GeneralDiv>
-                <GeneralDiv title="Starships" height="auto">
-                    <Card
-                        img="https://i.pinimg.com/originals/f1/26/e7/f126e762bcdb32fd401ff861ddd1390a.jpg"
-                        detail="/detail"
-                    ></Card>
-                </GeneralDiv>
-            </div>
-            {/* <div>
+      try {
+        const starshipsResponse = await getData({ entity: 'starships', id: '' });
+        const starshipDetails = await Promise.all(
+          starshipsResponse.map(async (starship) => {
+            const details = await getData({ entity: 'starships', id: starship.uid });
+            return {
+              uid: starship.uid,
+              properties: details.properties,
+            };
+          })
+        );
+        setStarshipsList(starshipDetails);
+      } catch (error) {
+        console.error('Error fetching starships data:', error);
+      }
+
+      try {
+        const planetsResponse = await getData({ entity: 'planets', id: '' });
+        const planetsDetails = await Promise.all(
+          planetsResponse.map(async (planet) => {
+            const details = await getData({ entity: 'planets', id: planet.uid });
+            return {
+              uid: planet.uid,
+              properties: details.properties,
+            };
+          })
+        );
+        setPlanetsList(planetsDetails);
+      } catch (error) {
+        console.error('Error fetching planets data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <div>
         <GeneralDiv title="Characters" height="auto">
-          <Card
-          img="https://frikipolis.com/wp-content/uploads/2023/07/star-wars-the-black-series-darth-vader-obi-wan7.jpg"
-          detail="/detail"
-          ></Card>
+          {peopleList.map((person) => (
+            <Card
+              key={person.uid}
+              img={getImg(person.properties.name)}
+              detail={`/detail/people/${person.uid}`}
+              title={person.properties.name}
+              description={
+                <div>
+                  Gender: {person.properties.gender}<br />
+                  Eye color: {person.properties.eye_color}<br />
+                  Hair color: {person.properties.hair_color}
+                </div>
+              }
+            />
+          ))}
         </GeneralDiv>
         <GeneralDiv title="Starships" height="auto">
-          <Card
-          img="https://i.pinimg.com/originals/f1/26/e7/f126e762bcdb32fd401ff861ddd1390a.jpg"
-          detail="/detail"
-          ></Card>
+          {starshipsList.map((starship) => (
+            <Card
+              key={starship.uid}
+              img={getImg(starship.properties.name)}
+              detail={`/detail/starships/${starship.uid}`}
+              title={starship.properties.name}
+              description={
+                <div>
+                  Model: {starship.properties.model}<br />
+                  Starship Class: {starship.properties.starship_class}
+                </div>
+              }
+            />
+          ))}
         </GeneralDiv>
-      </div> */}
-        </>
-    )
+        <GeneralDiv title="Planets" height="auto">
+          {planetsList.map((planet) => (
+            <Card
+              key={planet.uid}
+              img={getImg(planet.properties.name)}
+              detail={`/detail/planets/${planet.uid}`}
+              title={planet.properties.name}
+              description={
+                <div>
+                  Population: {planet.properties.population}<br />
+                  Climate: {planet.properties.climate}<br />
+                  Terrain: {planet.properties.terrain}
+                </div>
+              }
+            />
+          ))}
+        </GeneralDiv>
+      </div>
+    </>
+  );
 }
 
-export default MainPage
+export default MainPage;

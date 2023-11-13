@@ -10,7 +10,7 @@ const Router = () => {
             <Navbar />
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/detail" element={<DetailPage />} />
+                <Route path="/detail/:entity/:id" element={<DetailPage />} />
             </Routes>
         </BrowserRouter>
     );

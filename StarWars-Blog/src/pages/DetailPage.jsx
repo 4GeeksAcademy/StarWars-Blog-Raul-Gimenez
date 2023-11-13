@@ -1,7 +1,16 @@
 import Card from '../components/Cards'
 import GeneralDiv from '../components/GeneralDiv'
+import { useParams } from 'react-router-dom';
+import getData from '../services/getData';
+import { useEffect } from 'react';
 
 function DetailPage() {
+  const {entity, id} = useParams()
+
+    useEffect(()=>{
+      getData({entity:entity, id:id})
+      .then((res)=> console.log(res))
+    }, [])
 
   return (
     <div className='d-flex justify-content-center'>
