@@ -24,7 +24,7 @@ export default function Navbar({ favourites, setFavourites }) {
               <a className="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Favourites {favourites.length}
               </a>
-              <ul className="dropdown-menu dropdown-menu-end bg-black text-white">
+              <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-black text-white">
                 {favourites.map((fav) => (
                   <li key={`${fav.entity}-${fav.id}`} className="d-flex me-3 align-items-center">
                     <Link to={`/detail/${fav.entity}/${fav.id}`} className="dropdown-item text-white">{fav.name}</Link>
