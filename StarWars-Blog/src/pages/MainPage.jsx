@@ -4,7 +4,7 @@ import GeneralDiv from '../components/GeneralDiv';
 import getData from '../services/getData';
 import getImg from '../services/getImg';
 
-function MainPage() {
+function MainPage({favourites, setFavourites}) {
   const [peopleList, setPeopleList] = useState([]);
   const [starshipsList, setStarshipsList] = useState([]);
   const [planetsList, setPlanetsList] = useState([]);
@@ -73,6 +73,9 @@ function MainPage() {
               img={getImg(person.properties.name)}
               detail={`/detail/people/${person.uid}`}
               title={person.properties.name}
+              favourites={{ favourites, setFavourites }}
+              id={person.uid}
+              entity={"people"}
               description={
                 <div>
                   Gender: {person.properties.gender}<br />
@@ -90,6 +93,9 @@ function MainPage() {
               img={getImg(starship.properties.name)}
               detail={`/detail/starships/${starship.uid}`}
               title={starship.properties.name}
+              favourites={{ favourites, setFavourites }}
+              id={starship.uid}
+              entity={"starships"}
               description={
                 <div>
                   Model: {starship.properties.model}<br />
@@ -106,6 +112,9 @@ function MainPage() {
               img={getImg(planet.properties.name)}
               detail={`/detail/planets/${planet.uid}`}
               title={planet.properties.name}
+              favourites={{ favourites, setFavourites }}
+              id={planet.uid}
+              entity={"planets"}
               description={
                 <div>
                   Population: {planet.properties.population}<br />

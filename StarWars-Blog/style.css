@@ -2,6 +2,10 @@ body{
     background-image: url('https://cdn.pixabay.com/animation/2023/03/19/02/34/02-34-11-741_512.gif');
 }
 
+.propertie{
+  overflow: auto;
+}
+
 /* Estilos de las scrollbar */
 *::-webkit-scrollbar,
 .containerDiv::-webkit-scrollbar {
@@ -17,6 +21,24 @@ body{
 }
 
 *::-webkit-scrollbar-thumb:hover,
+.containerDiv::-webkit-scrollbar-thumb:hover {
+  background: #212529;
+}
+
+.propertie::-webkit-scrollbar,
+.containerDiv::-webkit-scrollbar {
+  height: 8px;
+  width: 5px;
+  background: transparent;
+}
+
+.propertie::-webkit-scrollbar-thumb,
+.containerDiv::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #9c9c9c;
+}
+
+.propertie::-webkit-scrollbar-thumb:hover,
 .containerDiv::-webkit-scrollbar-thumb:hover {
   background: #212529;
 }
